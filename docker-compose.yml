@@ -10,6 +10,7 @@ services:
     depends_on:
       - db
     restart: on-failure
+    image: shefoo/spring-docker-demo #by using this iam running my app using docker hub repo not my local code
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/docker?useSSL=false&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: root
