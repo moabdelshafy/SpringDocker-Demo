@@ -11,14 +11,14 @@ import java.util.List;
 @Service
 public class ProductService {
 
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    @Autowired
+
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
-    @Cacheable(value = "products")
+    @Cacheable(value = "products", key = "'allProducts'")
     public List<Product> getAll(){
         return productRepository.findAll();
     }

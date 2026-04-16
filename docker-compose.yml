@@ -1,40 +1,36 @@
-version: "3.8"
-
 services:
+
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: shefoo/spring-docker-demo:v1.0
     ports:
       - "9090:9090"
     depends_on:
       - db
-    restart: on-failure
-    image: shefoo/spring-docker-demo #by using this iam running my app using docker hub repo not my local code
+      - redis
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/docker?useSSL=false&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATASOURCE_USERNAME: shefoo
+      SPRING_DATASOURCE_PASSWORD: shefoo
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
-      SPRING_CACHE_REDIS_TIME-TO-LIVE: 30S #CLEAR CACHE AFTER 30S
-
 
   redis:
-    image: redis
+    image: redis:7
     ports:
       - "6378:6379"
 
   db:
-    image: mysql:latest
+    image: mysql:8
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: shefoo
       MYSQL_DATABASE: docker
+      MYSQL_USER: shefoo
+      MYSQL_PASSWORD: shefoo
     ports:
       - "3307:3306"
     volumes:
-      - C:\docker-db:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
 
-networks:
-  my-network:
-    external: true
+volumes:
+  mysql_data:
