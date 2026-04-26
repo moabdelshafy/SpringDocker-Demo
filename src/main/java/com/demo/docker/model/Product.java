@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 
 import java.io.Serializable;
 
+
 @Entity
 public class Product implements Serializable {
 
@@ -14,6 +15,17 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    public Product() {}
+
+    public Product(String name) {
+        this.name = name;
+    }
+
+    public Product(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public Long getId() {
         return id;

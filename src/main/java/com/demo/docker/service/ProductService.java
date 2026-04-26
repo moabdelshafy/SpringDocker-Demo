@@ -1,8 +1,8 @@
 package com.demo.docker.service;
 
 import com.demo.docker.model.Product;
+import com.demo.docker.model.ProductDTO;
 import com.demo.docker.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,13 @@ public class ProductService {
     }
 
     @CacheEvict(value = "products", allEntries = true)
-    public Product addProduct(Product product){
-        return productRepository.save(product);
+    public Product addProduct(ProductDTO productDTO){
+        Product entity = new Product(productDTO.name());
+        return productRepository.save(entity);
+    }
+
+
+    public Product getProductById(Long id){
+       return productRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Product Not Found By ID:" + id));
     }
 }

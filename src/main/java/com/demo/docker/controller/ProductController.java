@@ -1,8 +1,8 @@
 package com.demo.docker.controller;
 
 import com.demo.docker.model.Product;
+import com.demo.docker.model.ProductDTO;
 import com.demo.docker.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +24,12 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public Product addProduct (@RequestBody Product product){
+    public Product addProduct (@RequestBody ProductDTO product){
         return productService.addProduct(product);
+    }
+
+    @GetMapping("/{id}")
+    public Product getProductById(@PathVariable Long id){
+        return productService.getProductById(id);
     }
 }
