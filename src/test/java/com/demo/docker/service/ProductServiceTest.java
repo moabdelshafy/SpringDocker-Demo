@@ -94,7 +94,5 @@ public class ProductServiceTest {
         //Then
         assertThat(result).isNotEmpty();
         assertThat(result).size().isEqualTo(2);
-
-
     }
 }
