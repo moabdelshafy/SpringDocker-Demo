@@ -1,13 +1,17 @@
 services:
 
   app:
-    image: shefoo/spring-docker-demo:v1.0
+    image: shefoo/spring-docker-demo:latest
+    restart: on-failure
     ports:
-      - "9090:9090"
+      - "9090:8080"
     depends_on:
-      - db
-      - redis
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
     environment:
+      SPRING_PROFILES_ACTIVE: prod
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/docker?useSSL=false&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: shefoo
       SPRING_DATASOURCE_PASSWORD: shefoo
@@ -16,12 +20,13 @@ services:
 
   redis:
     image: redis:7
+    restart: unless-stopped
     ports:
       - "6378:6379"
 
   db:
     image: mysql:8
-    restart: always
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: shefoo
       MYSQL_DATABASE: docker
@@ -31,6 +36,12 @@ services:
       - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
 
 volumes:
   mysql_data:
