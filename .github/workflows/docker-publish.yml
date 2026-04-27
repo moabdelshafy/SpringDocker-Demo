@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+    tags:
+      - "v*"
   workflow_dispatch:
 
 permissions:
@@ -68,8 +70,9 @@ jobs:
         with:
           images: shefoo/spring-docker-demo
           tags: |
-            type=raw,value=latest
+            type=raw,value=latest,enable={{is_default_branch}}
             type=sha,format=short
+            type=ref,event=tag
 
       - name: Build and push image
         uses: docker/build-push-action@v6

@@ -1,7 +1,7 @@
 services:
 
   app:
-    image: shefoo/spring-docker-demo:latest
+    image: shefoo/spring-docker-demo:${APP_IMAGE_TAG:-latest}
     restart: on-failure
     ports:
       - "9090:8080"
