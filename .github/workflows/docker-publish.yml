@@ -53,7 +53,7 @@ jobs:
           name: spring-jar
           path: target
 
-      - name: Set up Docker Buildx
+      - name: Set up Docker Builds
         uses: docker/setup-buildx-action@v3
 
       - name: Log in to Docker Hub
