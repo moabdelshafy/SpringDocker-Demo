@@ -67,17 +67,41 @@ The Docker Compose file starts the full stack:
 - MySQL on host port `3307`
 - Redis on host port `6378`
 
-The app container waits for MySQL to become healthy before starting.
+The app container waits for MySQL to become healthy before starting. Runtime values are loaded from `.env`; use `.env.example` as the template for local development.
 
-## Run Locally
+## Local Setup
 
-### Start the full stack
+1. Clone the repository:
 
 ```bash
-docker compose up -d
+git clone <repository-url>
 ```
 
-### Pull the latest published app image and recreate the app container
+2. Copy the environment template:
+
+```bash
+cp .env.example .env
+```
+
+On Windows, copy the file manually or run:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+3. Update values in `.env` if necessary.
+
+4. Start the application:
+
+```bash
+docker compose up
+```
+
+5. Access the application:
+
+`http://localhost:9090`
+
+### Pull the Latest App Image
 
 ```bash
 docker compose pull app
@@ -114,6 +138,6 @@ Published image:
 
 ## Notes
 
-- The `prod` Spring profile is activated at runtime in Docker Compose.
+- The `docker` Spring profile is activated at runtime in Docker Compose.
 - Infrastructure-specific values such as database and Redis connection settings are injected through container environment variables.
 - Redis runs as a separate container and MySQL data is stored in a named Docker volume.
